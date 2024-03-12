@@ -2,9 +2,9 @@ import pandas as pd
 import sys
 from funcs.newEntry import formatToNewEntry
 
-argumentos = sys.argv 
+argumentos = ['Tempo de Deslocamento (min)', 'Meio de Transporte - 0: Carro, 1: Metrô-Ônibus, 2: Bicicleta, 3: A pé ', 'Dia da Semana - 0: Segunda, 1: Terça, 2: Quarta, 3: Quinta, 4: Sexta ', 'Intensidade da Chuva 0 - Sem Chuva, 1 - Chuva Fraca, 2 - Chuva Moderada, 3 - Chuva Forte', 'Horário de Saída (HH:mm)', 'Véspera de Feriado 0 - Não, 1 - Sim']
 
-if (argumentos[1] == '--help'):
+if (len(sys.argv) > 1 and sys.argv[1] == "-h"):
     print("""
         - Tempo de Deslocamento (min) 
 
@@ -21,9 +21,14 @@ if (argumentos[1] == '--help'):
     exit(0)
 else: 
     try: 
-        deslocamento_info = argumentos[1:] 
 
-        df = pd.DataFrame(formatToNewEntry(deslocamento_info))
+        dataToSave = list() 
+
+        for deslocamento in argumentos:
+            print("Informe o valor de ", deslocamento, ": ")
+            dataToSave.append(input()) 
+
+        df = pd.DataFrame(formatToNewEntry(dataToSave))
 
         df.to_csv('data.csv', mode='a', header=False, index=False) 
 
